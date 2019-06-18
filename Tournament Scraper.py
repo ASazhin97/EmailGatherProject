@@ -2,7 +2,8 @@ import requests
 import lxml.html as lh
 from Athlete import Athlete
 
-site = 'https://metpgajr.bluegolf.com/bluegolf/metpgajr19/event/metpgajr195/contest/0/contestant/index.htm'
+# example site
+site = 'https://metpgajr.bluegolf.com/bluegolf/metpgajr19/event/metpgajr1914/contest/0/contestant/index.htm'
 
 # function that passes in tournament roster URL and returns list of athlete objects
 def met_pga_scrape(url):
@@ -64,5 +65,3 @@ def met_pga_scrape(url):
             state = location.split("-")[-1].strip(" ")
         ath_list.append(Athlete(fname, lname, city, state))
     return ath_list
-
-print(met_pga_scrape(site))
