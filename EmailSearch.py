@@ -4,6 +4,7 @@ from bisect import bisect_left
 fileName = "AthleteProfileSheet.xlsx"
 name = "Adelman"
 nameF = "Ashley"
+state = "GA"
 
 
 class SearchClass:
@@ -60,15 +61,24 @@ class SearchClass:
 
     # TO DO
     # check if the indexes have corresponding: State, Torn
-    # if not correct throw out
-    # if correct keep
-    # get athlete profile id
-    # get all indexes with that id
-    # create overarching function that will run the searches
-    # THIS FUNCTION SHOULD CLEAR ALL FIELD ONCE FINISHED
-    # re-arragne to make standalone class
+    def confirmStateTown(self):
+        #open workbook
+        workbook = xlrd.open_workbook(self.dataFile)
+        sheet = workbook.sheet_by_index(0)
+        for n in self.searchedFirstnameIndexList:
+            if sheet.cell_value(n, 11).upper() != state.upper():
+                self.searchedFirstnameIndexList.remove(n)
+            if sheet.cell_value(n, 10).upper() != state.upper():
+                self.searchedFirstnameIndexList.remove(n)
+        print(self.searchedFirstnameIndexList)
+
+    # create over arching function that will run the whole program
+    # if it returns empty, return nothing
+    # other wise find id for each remaining name
+    # for each id find indexes to return
 
 searchObject = SearchClass(fileName)
 searchObject.searchLastname()
 searchObject.searchFirstname()
 print(searchObject.searchedFirstnameIndexList)
+searchObject.confirmStateTown()
