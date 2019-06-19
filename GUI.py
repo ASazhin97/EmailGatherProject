@@ -1,13 +1,14 @@
 from tkinter import *
-from MetPGA import met_pga_scrape
+from MetPGAScrape import met_pga_scrape
 
 # click function
 def button_clicked(textEntry, window):
-    enteredText = textEntry.get()  # collect data from text box entry
-    if enteredText == "":
+    url = textEntry.get()  # collect data from text box entry
+    if url == "":
         textToDisplay = "Must enter text. Try again"
     # create another label
     else:
+        ath_obj_list = met_pga_scrape(url)
 
         textToDisplay = 'Email list downloaded ... check some folder'
     # clear label first
