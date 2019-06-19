@@ -1,4 +1,5 @@
 from tkinter import *
+from MetPGA import met_pga_scrape
 
 # click function
 def button_clicked(textEntry, window):
