@@ -1,4 +1,5 @@
 from tkinter import *
+from MetPGA import met_pga_scrape
 
 
 # click function
@@ -8,6 +9,7 @@ def run_program():
         textToDisplay = "Must enter text. Try again"
     # create another label
     else:
+        ath_obj_list = met_pga_scrape(enteredText)
         textToDisplay = 'Email list downloaded ... check some folder'
     # clear label first
     Label(window, text="", bg='black',
