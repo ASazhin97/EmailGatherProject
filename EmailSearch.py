@@ -1,12 +1,6 @@
 import xlrd
 from bisect import bisect_left
 
-fileName = "AthleteProfileSheet.xlsx"
-name = "Adelman"
-nameF = "Ashley"
-state = "GA"
-
-
 class SearchClass:
     def __init__(self, data):
         # initialize variables
@@ -15,6 +9,7 @@ class SearchClass:
         self.firstnameList = []
         self.searchedLastnameIndexList = []
         self.searchedFirstnameIndexList = []
+        self.listOfID = []
 
     def binarySearch(self, a, x):
         i = bisect_left(a, x)
@@ -25,7 +20,7 @@ class SearchClass:
 
     # gives back a list of indexes
     # where the last name mateches the searched last name
-    def searchLastname(self):
+    def searchLastname(self, name):
         #open book
         workbook = xlrd.open_workbook(self.dataFile)
         sheet = workbook.sheet_by_index(0)
@@ -40,10 +35,11 @@ class SearchClass:
         while name.upper() == self.lastnameList[i]:
             self.searchedLastnameIndexList.append(i)
             i += 1
+        return self.searchedLastnameIndexList
 
     # using the previously found list of indexes of lastnames
     # find in those the lis of indexes where the name matches
-    def searchFirstname(self):
+    def searchFirstname(self, nameF):
         #open workbook
         workbook = xlrd.open_workbook(self.dataFile)
         sheet = workbook.sheet_by_index(0)
@@ -61,24 +57,46 @@ class SearchClass:
 
     # TO DO
     # check if the indexes have corresponding: State, Torn
-    def confirmStateTown(self):
+    def confirmStateTown(self, state, town):
         #open workbook
         workbook = xlrd.open_workbook(self.dataFile)
         sheet = workbook.sheet_by_index(0)
         for n in self.searchedFirstnameIndexList:
             if sheet.cell_value(n, 11).upper() != state.upper():
                 self.searchedFirstnameIndexList.remove(n)
-            if sheet.cell_value(n, 10).upper() != state.upper():
+            elif sheet.cell_value(n, 10).upper() != town.upper():
                 self.searchedFirstnameIndexList.remove(n)
-        print(self.searchedFirstnameIndexList)
+
+    def getIds(self):
+        workbook = xlrd.open_workbook(self.dataFile)
+        sheet = workbook.sheet_by_index(0)
+        allId = []
+        for i in range(sheet.nrows):
+            allId.append(sheet.cell_value(i,1))
+        print(allId)
+        for k in self.searchedFirstnameIndexList:
+            id = sheet.cell_value(k, 1)
+            print(id)
+            idIndex = allId.index(id)
+            n = idIndex
+            print(idIndex)
+            while sheet.cell_value(n, 1) == id:
+                self.listOfID.append(n)
+                n += 1
+
+
 
     # create over arching function that will run the whole program
-    # if it returns empty, return nothing
-    # other wise find id for each remaining name
-    # for each id find indexes to return
+    def performSearch(self, fname, lname, state, town):
+        lasname = self.searchLastname(lname)
+        if(len(lasname) >= 1):
+            try:
+                self.searchFirstname(fname)
+                self.confirmStateTown(state, town)
+                self.getIds()
+            except:
+                print("not in list")
 
-searchObject = SearchClass(fileName)
-searchObject.searchLastname()
-searchObject.searchFirstname()
-print(searchObject.searchedFirstnameIndexList)
-searchObject.confirmStateTown()
+        return self.listOfID
+
+
