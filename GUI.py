@@ -1,5 +1,7 @@
 from tkinter import *
-#from MetPGAScrape import met_pga_scrape
+import time
+
+# from MetPGAScrape import met_pga_scrape
 
 # click function
 def button_clicked(textEntry, file_name_entry, window):
@@ -9,10 +11,17 @@ def button_clicked(textEntry, file_name_entry, window):
         textToDisplay = "Must enter text. Try again"
     # create another label
     else:
-        textToDisplay = 'Email list downloaded ... check some folder'
+        # add status bar
+        status = Label(window, text="x% complete", bd=1, relief=SUNKEN)
+        status.grid(row=4, columnspan=2, sticky=NSEW)
+        # can call method here that does all the work. pass window as parameter so have status bar
+        textToDisplay = "100% Complete. Check downloads folder"
     # clear label first
-    Label(window, text=textToDisplay, bg='black',
-          fg='white', font='none 12 bold').grid(row=3, column=0, sticky=W)
+    status = Label(window, text=textToDisplay, bd=1, relief=SUNKEN)
+    status.grid(row=4, columnspan=2, sticky=NSEW)
+    # Label(window, text=textToDisplay, bg='black',
+    #       fg='white', font='none 12 bold').grid(row=3, column=0, sticky=W)
+
 
 def UI():
     # define window
@@ -41,13 +50,16 @@ def UI():
     file_name_entry = Entry(window, width=50, bg='white')
     file_name_entry.grid(row=2, column=1, sticky=W)
 
-
     # add a submit button for URL and file name
 
-    Button(window, text='Submit', width=7, command=lambda: button_clicked(URL_entry, file_name_entry, window)).grid(
-        row=2, column=1, sticky=E)
+    Button(window, text='Submit', width=7, command=lambda: button_clicked(URL_entry,
+                                                                          file_name_entry,
+                                                                          window)).grid(row=2,
+                                                                                        column=1,
+                                                                                        sticky=E)
 
     # display window
     window.mainloop()
+
 
 UI()
