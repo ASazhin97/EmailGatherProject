@@ -1,10 +1,10 @@
 import EmailSearch
 from MetPGAScrape import *
 import xlrd
-from os.path import expanduser
+import os
 
 # example athlete object list
-x = met_pga_scrape("https://metpgajr.bluegolf.com/bluegolf/metpgajr16/event/metpgajr165/contest/0/contestant/index.htm")
+x = met_pga_scrape("https://metpgajr.bluegolf.com/bluegolf/metpgajr19/event/metpgajr199/contest/0/contestant/index.htm")
 
 
 # function that takes list of athlete objects and the desired name of the output file
@@ -41,3 +41,5 @@ def email_list_get(ath_list, title = "emails"):
         text_doc.write(row)
 
     text_doc.close()
+    os.rename(title + ".txt", os.path.expanduser('~/Downloads/') + title + ".txt")
+

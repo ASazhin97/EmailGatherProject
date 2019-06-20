@@ -57,9 +57,14 @@ def met_pga_scrape(url):
         if len(location.split(", "))< 2:
             city = location
             state = " state not found"
-        if "," in location:
+        # check if the city and state are in the standard city, state template
+        if ", " in location:
             city = (location.split(", ")[0])
             state = (location.split(", ")[1])[0:2]
+        # check if the the city and state are in the city,state format without a space
+        elif "," in location:
+            city = (location.split(",")[0])
+            state = (location.split(",")[1])[0:2]
         # checks if the location is in the city - state template
         elif "-" in location:
             city = location.split("-")[0]

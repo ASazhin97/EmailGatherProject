@@ -5,6 +5,8 @@ class SearchClass:
     def __init__(self, data):
         # initialize variables
         self.dataFile = data
+        self.workbook = xlrd.open_workbook(self.dataFile)
+        self.sheet = self.workbook.sheet_by_index(0)
         self.lastnameList = []
         self.firstnameList = []
         self.searchedLastnameIndexList = []
@@ -22,12 +24,10 @@ class SearchClass:
     # where the last name mateches the searched last name
     def searchLastname(self, name):
         #open book
-        workbook = xlrd.open_workbook(self.dataFile)
-        sheet = workbook.sheet_by_index(0)
 
         # get the column with all the last names
-        for i in range(sheet.nrows):
-            self.lastnameList.append(sheet.cell_value(i, 3).upper())
+        for i in range(self.sheet.nrows):
+            self.lastnameList.append(self.sheet.cell_value(i, 3).upper())
         # use binary search to find the first name
         firstIndex = self.binarySearch(self.lastnameList, name.upper())
         i = firstIndex
@@ -41,17 +41,15 @@ class SearchClass:
     # find in those the lis of indexes where the name matches
     def searchFirstname(self, nameF):
         #open workbook
-        workbook = xlrd.open_workbook(self.dataFile)
-        sheet = workbook.sheet_by_index(0)
         # create list of all first names with that last name
         for j in self.searchedLastnameIndexList:
-            self.firstnameList.append((sheet.cell_value(j, 2).upper()))
+            self.firstnameList.append((self.sheet.cell_value(j, 2).upper()))
 
         firstNameIndex = self.firstnameList.index(nameF.upper())
         firstPlaceInSheet = self.searchedLastnameIndexList[firstNameIndex]
         k = firstPlaceInSheet
         # creates list of indecies in sheet where last + first name coincide
-        while nameF.upper() == sheet.cell_value(k, 2).upper():
+        while nameF.upper() == self.sheet.cell_value(k, 2).upper():
             self.searchedFirstnameIndexList.append(k)
             k += 1
 
@@ -59,25 +57,21 @@ class SearchClass:
     # check if the indexes have corresponding: State, Torn
     def confirmStateTown(self, state, town):
         #open workbook
-        workbook = xlrd.open_workbook(self.dataFile)
-        sheet = workbook.sheet_by_index(0)
         for n in self.searchedFirstnameIndexList:
-            if sheet.cell_value(n, 11).upper() != state.upper():
+            if self.sheet.cell_value(n, 11).upper() != state.upper():
                 self.searchedFirstnameIndexList.remove(n)
-            elif sheet.cell_value(n, 10).upper() != town.upper():
+            elif self.sheet.cell_value(n, 10).upper() != town.upper():
                 self.searchedFirstnameIndexList.remove(n)
 
     def getIds(self):
-        workbook = xlrd.open_workbook(self.dataFile)
-        sheet = workbook.sheet_by_index(0)
         allId = []
-        for i in range(sheet.nrows):
-            allId.append(sheet.cell_value(i,1))
+        for i in range(self.sheet.nrows):
+            allId.append(self.sheet.cell_value(i,1))
         for k in self.searchedFirstnameIndexList:
-            id = sheet.cell_value(k, 1)
+            id = self.sheet.cell_value(k, 1)
             idIndex = allId.index(id)
             n = idIndex
-            while sheet.cell_value(n, 1) == id:
+            while self.sheet.cell_value(n, 1) == id:
                 self.listOfID.append(n)
                 n += 1
 
