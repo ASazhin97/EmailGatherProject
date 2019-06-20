@@ -41,3 +41,5 @@ def email_list_get(ath_list, title = "emails"):
         text_doc.write(row)
 
     text_doc.close()
+
+email_list_get(x, "test1")

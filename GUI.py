@@ -43,3 +43,5 @@ def UI():
 
     # display window
     window.mainloop()
+
+UI()
