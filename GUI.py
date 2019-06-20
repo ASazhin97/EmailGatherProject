@@ -1,5 +1,5 @@
 from tkinter import *
-import time
+from Compiler import *
 
 # from MetPGAScrape import met_pga_scrape
 
@@ -14,7 +14,7 @@ def button_clicked(textEntry, file_name_entry, window):
         # add status bar
         status = Label(window, text="x% complete", bd=1, relief=SUNKEN)
         status.grid(row=4, columnspan=2, sticky=NSEW)
-        # can call method here that does all the work. pass window as parameter so have status bar
+        email_list_get(met_pga_scrape(URL), file_name)
         textToDisplay = "100% Complete. Check downloads folder"
     # clear label first
     status = Label(window, text=textToDisplay, bd=1, relief=SUNKEN)
