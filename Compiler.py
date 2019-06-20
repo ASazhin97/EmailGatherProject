@@ -42,5 +42,3 @@ def email_list_get(ath_list, title = "emails"):
 
     text_doc.close()
     os.rename(title + ".txt", os.path.expanduser('~/Downloads/') + title + ".txt")
-
-email_list_get(x, "Bethpage Red")

@@ -72,7 +72,6 @@ def met_pga_scrape(url):
                 city = city[:-1]
             state = location.split("-")[-1].strip(" ")
         ath_list.append(Athlete(fname, lname, city, state))
-        print(city, state)
     return ath_list
 
 met_pga_scrape(site)
