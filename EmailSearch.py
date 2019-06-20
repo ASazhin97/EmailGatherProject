@@ -73,13 +73,10 @@ class SearchClass:
         allId = []
         for i in range(sheet.nrows):
             allId.append(sheet.cell_value(i,1))
-        print(allId)
         for k in self.searchedFirstnameIndexList:
             id = sheet.cell_value(k, 1)
-            print(id)
             idIndex = allId.index(id)
             n = idIndex
-            print(idIndex)
             while sheet.cell_value(n, 1) == id:
                 self.listOfID.append(n)
                 n += 1
@@ -97,6 +94,12 @@ class SearchClass:
             except:
                 print("not in list")
 
-        return self.listOfID
+        returnlist = self.listOfID
+        self.lastnameList = []
+        self.firstnameList = []
+        self.searchedLastnameIndexList = []
+        self.searchedFirstnameIndexList = []
+        self.listOfID = []
+        return returnlist
 
 

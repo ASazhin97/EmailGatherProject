@@ -3,7 +3,7 @@ import lxml.html as lh
 from Athlete import Athlete
 
 # example site
-site = 'https://metpgajr.bluegolf.com/bluegolf/metpgajr19/event/metpgajr1911/contest/0/contestant/index.htm'
+site = "https://metpgajr.bluegolf.com/bluegolf/metpgajr16/event/metpgajr165/contest/0/contestant/index.htm"
 
 # function that passes in tournament roster URL and returns list of athlete objects
 def met_pga_scrape(url):
@@ -59,7 +59,7 @@ def met_pga_scrape(url):
             state = " state not found"
         if "," in location:
             city = (location.split(", ")[0])
-            state = (location.split(", ")[1])
+            state = (location.split(", ")[1])[0:2]
         # checks if the location is in the city - state template
         elif "-" in location:
             city = location.split("-")[0]
@@ -67,4 +67,7 @@ def met_pga_scrape(url):
                 city = city[:-1]
             state = location.split("-")[-1].strip(" ")
         ath_list.append(Athlete(fname, lname, city, state))
+        print(city, state)
     return ath_list
+
+met_pga_scrape(site)
