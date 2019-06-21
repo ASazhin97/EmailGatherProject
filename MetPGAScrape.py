@@ -42,7 +42,7 @@ def met_pga_scrape(url):
             # Removes odd elements left by random spaces
             if "" in name_list:
                 name_list.remove("")
-            # catches names with periods like James. A or M.Gregory
+            # catches names with periods like James. A or M. Gregory
             if name_list[0][-1] or name_list[1][-1] == ".":
                 fname = name_list[0] + " " + name_list[1]
                 lname = name_list[2]
@@ -50,6 +50,10 @@ def met_pga_scrape(url):
             elif name_list[-1][-1] == "I":
                 fname = name_list[0]
                 lname = name_list[1] + name_list[2]
+            # catches Jr or Jr. endings
+            elif name_list[-1].lower() == "jr" or "jr.":
+                fname = name_list[0]
+                lname = name_list[1]
             # generic catchall that will be updated as errors occur
             else:
                 fname = name_list[0]

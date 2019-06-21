@@ -15,7 +15,7 @@ def HJGT_scrape(url):
     # creates an HTML element
     doc = lh.fromstring(page.content)
 
-
+    # pulls in the title of the tournament
     title_raw = doc.get_element_by_id("pagecontainer")
     title_raw = title_raw.text_content().split('\n')
     title = title_raw[8]
