@@ -20,6 +20,11 @@ def met_pga_scrape(url):
     # Create's list of athlete objects
     ath_list = []
 
+    # reads in and extracts header from site
+    header_content = doc.xpath('//head')
+    header_raw = header_content[0].text_content().split("\n")[1]
+    header_raw = header_raw.split(" -")
+    header = header_raw[0]
 
     for t in tr_elements[1:]:
         cell_content = t.text_content()
@@ -72,6 +77,4 @@ def met_pga_scrape(url):
                 city = city[:-1]
             state = location.split("-")[-1].strip(" ")
         ath_list.append(Athlete(fname, lname, city, state))
-    return ath_list
-
-met_pga_scrape(site)
+    return ath_list, header

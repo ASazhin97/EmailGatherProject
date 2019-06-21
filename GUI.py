@@ -14,7 +14,8 @@ def button_clicked(textEntry, file_name_entry, window):
         # add status bar
         status = Label(window, text="x% complete", bd=1, relief=SUNKEN)
         status.grid(row=4, columnspan=2, sticky=NSEW)
-        email_list_get(met_pga_scrape(URL), file_name)
+        ath_list, header = met_pga_scrape(URL)
+        email_list_get(ath_list, header, file_name)
         textToDisplay = "100% Complete. Check downloads folder"
     # clear label first
     status = Label(window, text=textToDisplay, bd=1, relief=SUNKEN)
