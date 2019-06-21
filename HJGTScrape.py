@@ -1,10 +1,9 @@
-from html.parser import HTMLParser
 import requests
 import lxml.html as lh
 from Athlete import Athlete
 
 # example site
-site ="https://tournaments.hjgt.org/Tournament/TournamentDetails?TID=11830&TournamentID=11830#overview"
+site = "https://tournaments.hjgt.org/Tournament/TournamentDetails/0/Chicago-Summer-Junior-Open/11825"
 
 def HJGT_scrape(url):
 
@@ -15,6 +14,14 @@ def HJGT_scrape(url):
 
     # creates an HTML element
     doc = lh.fromstring(page.content)
+
+    # pulls in the title of the tournament
+    title_raw = doc.get_element_by_id("pagecontainer")
+    title_raw = title_raw.text_content().split('\n')
+    title = title_raw[8]
+    print(title)
+
+
 
     # finds all classes with the "tournamentparticipantbox" name
     participant_list = doc.find_class("tournamentparticipantbox")
@@ -62,8 +69,8 @@ def HJGT_scrape(url):
             city = location.split(", ")[0]
             state = location.split(", ")[1].strip(" ")
         ath_list.append(Athlete(fname, lname, city, state))
-    return ath_list
+    return ath_list, title
 
 
 x = HJGT_scrape(site)
-print(len(x))
+

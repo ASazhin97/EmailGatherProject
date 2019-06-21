@@ -8,7 +8,7 @@ x = met_pga_scrape("https://metpgajr.bluegolf.com/bluegolf/metpgajr16/event/metp
 
 
 # function that takes list of athlete objects and the desired name of the output file
-def email_list_get(ath_list, title = "emails"):
+def email_list_get(ath_list, header, title = "emails"):
 
     # name of the database file
     fileName = "AthleteProfileSheet.xlsx"
@@ -29,16 +29,17 @@ def email_list_get(ath_list, title = "emails"):
         id = search.performSearch(ath_obj.fname, ath_obj.lname, ath_obj.state, ath_obj.town)
         for t in id:
             email = sheet.cell(t, 4).value
-            p_or_a = sheet.cell(t, 18).value
-            text_rows = ath_obj.fname + " " + ath_obj.lname + " " + email + " " + p_or_a + "\n"
+            # p_or_a = sheet.cell(t, 18).value <--- points towards athlete or parent attribute if needed
+            text_rows = ath_obj.fname + "," + ath_obj.lname + "," + email + "," + "\n"
             email_list.append(text_rows)
 
     # converts list into dictionary into a list again to remove duplicates
     email_list = list(dict.fromkeys(email_list))
 
     # runs through the email list and writes to file
+    text_doc.write(header + '\n')
     for row in email_list:
         text_doc.write(row)
 
     text_doc.close()
-    os.rename(title + ".txt", os.path.expanduser('~/Downloads/') + title + ".txt")
+    os.rename(title + ".txt", os.path.expanduser('~/Downloads/') + title + ".csv")
