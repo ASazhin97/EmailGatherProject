@@ -1,6 +1,7 @@
 from tkinter import *
 from Compiler import *
 
+
 # from MetPGAScrape import met_pga_scrape
 
 # click function
@@ -60,6 +61,3 @@ def UI():
 
     # display window
     window.mainloop()
-
-
-UI()
