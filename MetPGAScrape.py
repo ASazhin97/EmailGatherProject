@@ -3,7 +3,7 @@ import lxml.html as lh
 from Athlete import Athlete
 
 # example site
-site = "https://metpgajr.bluegolf.com/bluegolf/metpgajr16/event/metpgajr165/contest/0/contestant/index.htm"
+site = "https://metpgajr.bluegolf.com/bluegolf/metpgajr16/event/metpgajr161/contest/0/contestant/index.htm"
 
 # function that passes in tournament roster URL and returns list of athlete objects
 def met_pga_scrape(url):
@@ -33,6 +33,7 @@ def met_pga_scrape(url):
         fullname = cell_content.split("\n")[2]
         # name is read-in in full, then split by spaces
         name_list = fullname.split(" ")
+
         # general name catch, will be used for basic first name and last name
         if len(name_list) == 2:
             fname = name_list[0]
@@ -47,9 +48,9 @@ def met_pga_scrape(url):
                 fname = name_list[0] + " " + name_list[1]
                 lname = name_list[2]
             # Catches people with "II" or "III" endings
-            elif name_list[-1][-1] == "I":
+            if name_list[-1][-1] == "I":
                 fname = name_list[0]
-                lname = name_list[1] + name_list[2]
+                lname = name_list[1] + " " + name_list[2]
             # catches Jr or Jr. endings
             elif name_list[-1].lower() == "jr" or "jr.":
                 fname = name_list[0]
@@ -58,7 +59,7 @@ def met_pga_scrape(url):
             else:
                 fname = name_list[0]
                 lname = name_list[-1]
-
+            print(lname)
     ############# LOCATION #############
         # takes the full name string from the site
         location = cell_content.split("\n")[5]
