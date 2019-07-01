@@ -12,6 +12,7 @@ class SearchClass:
         self.searchedLastnameIndexList = []
         self.searchedFirstnameIndexList = []
         self.listOfID = []
+        self.partial = []
 
     def binarySearch(self, a, x):
         i = bisect_left(a, x)
@@ -23,7 +24,6 @@ class SearchClass:
     # gives back a list of indexes
     # where the last name mateches the searched last name
     def searchLastname(self, name):
-        #open book
 
         # get the column with all the last names
         for i in range(self.sheet.nrows):
@@ -52,8 +52,8 @@ class SearchClass:
         while nameF.upper() == self.sheet.cell_value(k, 2).upper():
             self.searchedFirstnameIndexList.append(k)
             k += 1
+        return self.searchedFirstnameIndexList
 
-    # TO DO
     # check if the indexes have corresponding: State, Torn
     def confirmStateTown(self, state, town):
         #open workbook
@@ -83,6 +83,7 @@ class SearchClass:
         if(len(lasname) >= 1):
             try:
                 self.searchFirstname(fname)
+                self.partial = self.searchedFirstnameIndexList
                 self.confirmStateTown(state, town)
                 self.getIds()
             except:
@@ -96,4 +97,7 @@ class SearchClass:
         self.listOfID = []
         return returnlist
 
-
+    def get_partial(self):
+        partial_list = self.partial
+        self.partial = []
+        return partial_list

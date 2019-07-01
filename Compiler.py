@@ -4,7 +4,7 @@ import xlrd
 import os
 
 # example athlete object list
-x,y = met_pga_scrape("https://metpgajr.bluegolf.com/bluegolf/metpgajr16/event/metpgajr161/contest/0/contestant/index.htm")
+x,y = met_pga_scrape("https://metpgajr.bluegolf.com/bluegolf/metpgajr16/event/metpgajr1613/contest/0/contestant/index.htm")
 
 
 # function that takes list of athlete objects and the desired name of the output file
@@ -30,8 +30,15 @@ def email_list_get(ath_list, header="header", title="emails"):
     # to a list
     for ath_obj in ath_list:
         id = search.performSearch(ath_obj.fname, ath_obj.lname, ath_obj.state, ath_obj.town)
-        # captures the athlete's name if not found
-        if len(id) == 0:
+        partial = search.get_partial()
+        print(partial, ath_obj.fname, ath_obj.lname)
+        if len(partial) != 0:
+            print(ath_obj.fname, ath_obj.lname, ath_obj.state, ath_obj.town)
+        # captures the athlete's name if not found but partially matched
+        if len(id) == 0 and len(partial) != 0:
+            text_rows = ath_obj.fname + "," + ath_obj.lname + "," + "partial match" + "," + "\n"
+            not_found_list.append(text_rows)
+        elif len(id) == 0:
             text_rows = ath_obj.fname + "," + ath_obj.lname + "," + "\n"
             not_found_list.append(text_rows)
         # captures the athlete's name if found
@@ -43,6 +50,7 @@ def email_list_get(ath_list, header="header", title="emails"):
 
     # converts list into dictionary into a list again to remove duplicates
     email_list = list(dict.fromkeys(email_list))
+    not_found_list = list(dict.fromkeys(not_found_list))
 
     # runs through the email list and not found list and writes to files
     name_found_doc.write(header + '\n')
